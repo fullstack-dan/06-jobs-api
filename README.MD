@@ -14,7 +14,7 @@ npm install && npm start
 #### Routers
 
 - auth.js
-- jobs.js
+- projects.js
 
 #### User Model
 
