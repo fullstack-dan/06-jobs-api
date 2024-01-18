@@ -64,7 +64,7 @@ const deleteProject = async (req, res) => {
   if (!project) {
     throw new NotFoundError(`No project with id ${projectId}`);
   }
-  res.status(StatusCodes.OK).send();
+  res.status(StatusCodes.OK).json({ msg: "The entry was deleted." });
 };
 
 module.exports = {
