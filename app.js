@@ -1,7 +1,16 @@
 require("dotenv").config();
 require("express-async-errors");
+
+// security packages
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+
 const express = require("express");
 const app = express();
+
+app.use(express.static("public"));
 
 // database
 const connectDB = require("./db/connect");
@@ -16,6 +25,11 @@ const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
+app.set("trust proxy", 1);
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
+app.use(helmet());
+app.use(cors());
+app.use(xss());
 // extra packages
 
 // routes
@@ -39,6 +53,3 @@ const start = async () => {
 };
 
 start();
-
-// TEST TOKEN:
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg1YTliZmVjM2EwMjI4NmFjYmY3YTkiLCJuYW1lIjoiZGFuaWVsIiwiaWF0IjoxNzAzMjU4NTYwLCJleHAiOjE3MDU4NTA1NjB9.kDlbEDqrqbk13KZ9s3MpLD35JAOXINgITeJIXUlRDC0"
